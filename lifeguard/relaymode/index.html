@@ -240,14 +240,14 @@
                                     <div class="">
 
                                         <p></p><blockquote>
-  <p><i class="fa fa-calendar" style="color:#27AE60;"></i> <strong>LAST UPDATED: Sept. 4, 2026</strong> </p>
+  <p><i class="fa fa-calendar" style="color:#27AE60;"></i> <strong>LAST UPDATED: Sept. 10, 2026</strong> </p>
 </blockquote>
 
 <hr>
 
 <p></p><h2 id="overview" class="anchor"><a class="heading-anchor" href="#overview"><span></span></a>Overview</h2>
 
-<p><strong>Relay Mode allows Zebra devices to receive LifeGuard Over-the-Air updates from a customer-hosted FTP/S or HTTP/S file server</strong>, eliminating reliance on Zebra-owned servers for pushing updates to individual devices. This provides Zebra customers with a DIY option of maintaining localized control of their own servers for deployment of updates currently delivered through the Zebra LifeGuard service, 
+<p><strong>Relay Mode allows Zebra devices to receive LifeGuard updates from a customer-hosted FTP/S or HTTP/S file server</strong>, eliminating reliance on Zebra-owned servers for pushing updates to individual devices. This provides Zebra customers with a do-it-yourself option of maintaining localized control of their own servers for deployment of updates currently delivered through the Zebra LifeGuard service, 
 which includes Android OS updates, security patches and firmware. Configuration of Relay Mode can be maintained by the company's existing Enterprise Mobility Management (EMM) system and <a href="/oemconfig">Zebra OEMConfig</a>. Once configured, the system operates autonomously, periodically polling the designated server for updates and installing them to devices according to established policies, all with on-device logging. </p>
 
 <h3 id="requirements" class="anchor"><a class="heading-anchor" href="#requirements"><span></span></a>Requirements</h3>
@@ -262,26 +262,22 @@ which includes Android OS updates, security patches and firmware. Configuration 
 <li>HTTP or HTTPS</li></ul>
 </li>
 
-<li><strong>Server recommendations</strong>: 
+<li><strong>Network recommendations</strong>: 
 
 
 <ul>
-<li><strong>500 GB available storage capacity</strong></li>
-
-<li><strong>1000 simultaneous connection capability</strong> </li></ul>
+<li>Minimum <strong>3 Mbps dedicated bandwidth per device</strong></li></ul>
 </li>
 
 <li><strong>Required server components</strong>: 
 
 
 <ul>
-<li>Highly scalable HTTP, HTTPS, FTP, or FTPS server software</li>
+<li><strong>Highly scalable server software</strong> for HTTP, HTTPS, FTP, or FTPS</li>
 
-<li><strong>Directory dedicated repository storage</strong></li>
+<li><strong>Directory dedicated to repository storage</strong></li>
 
-<li><strong>2 GB storage required for EACH Zebra device model</strong> to be updated (200 GB minimum)</li>
-
-<li><strong>An index file to catalog each stored update file</strong> and its hash and security patch level (SPL)</li></ul>
+<li><strong>Index file to catalog each stored update file</strong> and its hash and security patch level (SPL)</li></ul>
 </li>
 
 <li><strong>Supported device minimums</strong>: 
@@ -292,13 +288,23 @@ which includes Android OS updates, security patches and firmware. Configuration 
 
 <li>Android 15 with May, 2026, update</li>
 
-<li>FOTA 5.0.0.8 client</li>
+<li>FOTA 15.0.0.88 client</li>
 
 <li>OEMConfig 15.3 client</li></ul>
 </li>
 </ul>
 
-<p><i class="fa fa-exclamation-triangle" style="color:#FFA500;"></i> All devices to receive updates from a company's Relay Server must be configured to do so. See <i class="fa fa-arrow-circle-down" style="color:#27AE60;"></i> <a href="#vconfiguredevices">Device Updates section</a> below for details.  </p>
+<p><i class="fa fa-exclamation-triangle" style="color:#FFA500;"></i> All devices to receive updates from a company's Relay Server must be specifically configured to do so. See <i class="fa fa-arrow-circle-down" style="color:#27AE60;"></i> <a href="#vconfiguredevices">Device Updates section</a> below for details.  </p>
+
+<!-- 9/4/26 TUT-133331 removed per PdM
+
+* **Server recommendations**: 
+ * **500 GB available storage capacity** `<<-- ESTIMATED - TO BE CHECKED BY ENG`
+ * **1000 simultaneous connection capability** `<<-- ESTIMATED - TO BE CHECKED BY ENG`
+* **Required server components**: 
+ * **2 GB storage required for EACH Zebra device model** to be updated (200 GB minimum) `<<-- ESTIMATED - TO BE CHECKED BY ENG`
+
+ -->
 
 <hr>
 
@@ -335,7 +341,7 @@ which includes Android OS updates, security patches and firmware. Configuration 
 
 
 <ul>
-<li>After Relay Mode is configured, cloud-based LifeGuard updates fail with Error Code 5151 ("Unable to perform OS update as LifeGuard OTA is configured in Relay mode").</li></ul>
+<li>After Relay Mode is configured, LifeGuard Over-the-Air updates fail with error code 5151 ("Unable to perform OS update as LifeGuard OTA is configured in Relay mode").</li></ul>
 </li>
 
 <li><strong>Security</strong>
@@ -362,7 +368,9 @@ which includes Android OS updates, security patches and firmware. Configuration 
 
 
 <ul>
-<li>Relay Mode does not support updates with Hotfix and Custom packages.</li>
+<li><strong><u>Relay Mode supports only updates designated with "STD"</u> in the file name</strong>.</li>
+
+<li>Updates for "hotfixes" and custom packages are not supported.</li>
 
 <li>Baseline (U00) delta update packages are not supported.</li>
 
@@ -411,7 +419,7 @@ which includes Android OS updates, security patches and firmware. Configuration 
 
 <h2 id="iiretrievespls" class="anchor"><a class="heading-anchor" href="#iiretrievespls"><span></span></a>II. Retrieve SPLs</h2>
 
-<p>Service patch level information for a given update is found in its accompanying release notes document. Dates are extracted from each update file's release notes document, converted to a specific data format and saved for later use.  </p>
+<p>Service patch level information for a given update is found in its accompanying release notes document (usually found on the same page as the download link itself). Dates are extracted from the relevant release notes, converted to a specific date format and saved for later use.</p>
 
 <h4 id="getsecuritypatchlevels" class="anchor"><a class="heading-anchor" href="#getsecuritypatchlevels"><span></span></a>Get Security Patch Levels</h4>
 
@@ -528,11 +536,11 @@ pause
 
 <h2 id="vconfiguredevices" class="anchor"><a class="heading-anchor" href="#vconfiguredevices"><span></span></a>V. Configure Devices</h2>
 
-<p>Supported Zebra devices include those running Android 14 (or later) with specific minimum LifeGuard updates. See the <i class="fa fa-arrow-circle-up" style="color:#27AE60;"></i> <a href="#requirements">device requirements section</a> above for details. </p>
+<p><strong>Devices must be running Android 14 (or later) with specific LifeGuard updates</strong>. See <i class="fa fa-arrow-circle-up" style="color:#27AE60;"></i> <a href="#requirements">device requirements section</a> for further details. </p>
 
 <h4 id="configuredevicesforrelaymode" class="anchor"><a class="heading-anchor" href="#configuredevicesforrelaymode"><span></span></a>Configure Devices for Relay Mode</h4>
 
-<p><strong>1. <a href="https://www.zebra.com/us/en/support-downloads/software/oem-software/oemconfig-android-application.html?downloadId=da4e9d20-4607-4177-949e-a8397bad4936">Download OEMConfig client app 15.3</a> (or later) and push to target device(s)</strong> through Zebra DNA Cloud, StageNow, or an EMM system with OEMConfig Powered by MX. </p>
+<p><strong>1. <a href="https://www.zebra.com/us/en/support-downloads/software/oem-software/oemconfig-android-application.html?downloadId=da4e9d20-4607-4177-949e-a8397bad4936">Download OEMConfig client app 15.3</a> (or later) and push to target device(s)</strong> through an EMM system with Zebra OEMConfig Powered by MX. </p>
 
 <p><strong>2. In an EMM system with Zebra OEMConfig</strong>:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;a. Navigate to <strong>System Configuration &gt; Configure</strong>. <br>
@@ -556,18 +564,25 @@ pause
 
 <h4 id="iclassfafacheckcirclestylecolor27ae60iaftercompletingallfivesectionsaboverelaymodeisready" class="anchor"><a class="heading-anchor" href="#iclassfafacheckcirclestylecolor27ae60iaftercompletingallfivesectionsaboverelaymodeisready"><span></span></a><i class="fa fa-check-circle" style="color:#27AE60;"></i> After completing all five sections above, Relay Mode is ready.</h4>
 
-<h3 id="devicenotifications" class="anchor"><a class="heading-anchor" href="#devicenotifications"><span></span></a>Device Notifications</h3>
+<hr>
+
+<h2 id="devicenotifications" class="anchor"><a class="heading-anchor" href="#devicenotifications"><span></span></a>Device Notifications</h2>
 
 <ul>
-<li><strong>Relay Mode is running -</strong> Device is configured to receive updates from a non-Zebra relay server. <br>
-Status and relay-server settings also are visible on the device in <strong>Settings &gt; System &gt; System Update</strong>:
-<img alt="image" style="height:450px" src="relay-server-settings.jpg">
+<li><strong>Relay Mode is running -</strong> Device is configured to receive updates from a non-Zebra relay server:
+<img alt="image" style="height:450px" src="relay-mode-running.jpg">
 <em>Click image to enlarge; ESC to exit.</em>
 <br></li>
 
-<li><strong>An update package is downloading -</strong> An update is being downloaded to the device. </li>
+<li><strong>An update package is downloading -</strong> An update is being downloaded to the device:
+<img alt="image" style="height:450px" src="relay-mode-update-downloading.jpg">
+<em>Click image to enlarge; ESC to exit.</em>
+<br></li>
 
-<li><strong>Ready to update -</strong> An update has been downloaded and is ready to be applied.  </li>
+<li><strong>Ready to update -</strong> An update has been downloaded and is ready to be applied:
+<img alt="image" style="height:450px" src="relay-mode-update-flow.jpg">
+<em>Click image to enlarge; ESC to exit.</em>
+<br></li>
 </ul>
 
 <hr>
@@ -585,11 +600,9 @@ Format of FTP/FTPS and HTTP/HTTPS Full URLs
 If the host name is provided as a full URL, unsupported special characters must be replaced with their respective percentile-encoded values:
  -->
 
-<hr>
-
 <h2 id="serverconfiguration" class="anchor"><a class="heading-anchor" href="#serverconfiguration"><span></span></a>Server Configuration</h2>
 
-<p>The table below contains parameters and available options for configuring a server for Relay Mode.</p>
+<p>The table below contains parameters and available options for configuring a server for Relay Mode. </p>
 
 <table class="facelift" align="center" style="width:80%" border="1" padding="5px">
 <tbody><tr bgcolor="#dce8ef">
@@ -598,7 +611,7 @@ If the host name is provided as a full URL, unsupported special characters must 
 <th>Parameter</th>
 <th>Description</th>
 <th>Default Value</th>
-<th>Example</th>
+<th>Example(s)</th>
 </tr>
 
 <tr>
@@ -624,7 +637,7 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <tr>
 <td>Server Host</td>
-<td>The host name of the server hosting OS Update files. Can be a full URL, IP address or domain name.</td>
+<td>The host name of the server hosting OS Update files. Can be a full URL, IP address or domain name.<br><i class="fa fa-exclamation-triangle" style="color:#FFA500;"></i> Proper host-name formatting is critical. <b><i class="fa fa-arrow-circle-down" style="color:#27AE60;"></i> <b><a href="#hostnameformatting">See below</a></b></b></td>
 <td>none</td>
 <td>"ftp.zebra-updates.com"<br>"123.134.22.44"<br></td>
 </tr>
@@ -687,6 +700,90 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <hr>
 
+<h3 id="hostnameformatting" class="anchor"><a class="heading-anchor" href="#hostnameformatting"><span></span></a>Host Name Formatting</h3>
+
+<p>To ensure reliable and error-free device updates, it's important to correctly input and format all device configuration data, including the Relay Server host name, login credentials and port information. Some examples of valid and invalid data are shown below. <i class="fa fa-exclamation-circle" style="color:#FF0000;"></i> <strong>In some cases, percent-encoding must be used in place of special characters</strong>. See Special Character Encoding, below. </p>
+
+<blockquote>
+  <p><i class="fa fa-exclamation-triangle" style="color:#FFA500;"></i> <strong>While supported, <u>Zebra recommends AGAINST storing update files in the server's root directory</u></strong>.</p>
+</blockquote>
+
+<!-- (by entering just a slash (/) in the "Update File Location" field),  -->
+
+<ul>
+<li><strong>Valid FTP/FTPS URLs</strong>: 
+
+
+<ul>
+<li><code>ftp://user:pass@12.34.56.78:2121/</code> </li>
+
+<li><code>ftp://host.com/pub/</code> </li>
+
+<li><code>ftp://user:pass%401234@12.34.56.78:2121/</code> </li>
+
+<li><code>ftp://username:password@ipaddress:portno/</code> </li>
+
+<li><code>ftps://user:pass@12.34.56.78:2121/filelocation/</code></li></ul>
+</li>
+
+<li><strong>Valid HTTP/HTTPS URLs</strong>:
+
+
+<ul>
+<li><code>https://example.com/</code> </li>
+
+<li><code>http://192.168.1.100/admin/</code> </li>
+
+<li><code>http://localhost:8080/dashboard/</code> </li></ul>
+</li>
+
+<li><strong>INVALID URLs</strong>:
+
+
+<ul>
+<li><code>https://example.com</code> (trailing slash missing)</li>
+
+<li><code>http://192.168.1.100/admin</code> (trailing slash missing)</li>
+
+<li><code>http://localhost:8080/dashboard/</code> (inaccessible server)</li>
+
+<li><code>ftp://user:pass@12.34.56.78:2121</code> (missing path to file repo)</li></ul>
+</li>
+</ul>
+
+<p><br></p>
+
+<h4 id="specialcharacterencoding" class="anchor"><a class="heading-anchor" href="#specialcharacterencoding"><span></span></a>Special Character Encoding</h4>
+
+<p><strong>When including special characters within a URL, they must be percent-encoded</strong>, which replaces the special character with a percent sign (%) plus two hexadecimal digits representing the ASCII value of the character. For example, a space (not shown below) is encoded as <code>%20</code>. Other common special characters are shown below with their percent-encoded equivalents. </p>
+
+<ul>
+<li><strong>Special characters and their percent-encoded equivalents</strong>:
+
+
+<ul>
+<li><strong>@</strong> -&gt; <strong>%40</strong></li>
+
+<li><strong>:</strong> -&gt; <strong>%3A</strong> </li>
+
+<li><strong>$</strong> -&gt; <strong>%24</strong> </li>
+
+<li><strong>%</strong> -&gt; <strong>%25</strong></li>
+
+<li><strong>!</strong> -&gt; <strong>%21</strong> </li>
+
+<li><strong>;</strong> -&gt; <strong>%3B</strong> </li>
+
+<li><strong>,</strong> -&gt; <strong>%2C</strong> </li>
+
+<li><strong>?</strong> -&gt; <strong>%3F</strong> </li>
+
+<li><strong>+</strong> -&gt; <strong>%2B</strong>  </li>
+
+<li><strong>*</strong> -&gt; <strong>%2A</strong></li></ul>
+</li>
+</ul>
+
 <hr>
 
 <h2 id="devicemonitoring" class="anchor"><a class="heading-anchor" href="#devicemonitoring"><span></span></a>Device Monitoring</h2>
@@ -715,15 +812,25 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <h4 id="ftpserverconnectionunsuccessful" class="anchor"><a class="heading-anchor" href="#ftpserverconnectionunsuccessful"><span></span></a>"FTP server connection unsuccessful"</h4>
 
-<p><strong>Resolution</strong>: Double-check the configuration settings. Ensure that the server protocol, port number, and host name are entered correctly.</p>
+<p><strong>Resolution</strong>: Double-check the configuration settings. Ensure that the server protocol, port number, and host name are entered correctly.<br></p>
 
-<p><img alt="image" style="height:450px" src="relay-server-settings.jpg">
+<p><img alt="image" style="height:350px" src="relay-mode-connection-unsuccessful.jpg
+">
+  <em>Click image to enlarge; ESC to exit.</em>
+  <br></p>
+
+<p>Status and relay-server settings are visible on the device in <strong>Settings &gt; System &gt; System Update</strong>:
+  <img alt="image" style="height:350px" src="relay-server-settings.jpg">
   <em>Click image to enlarge; ESC to exit.</em>
   <br></p>
 
 <hr>
 
 <h4 id="failedtodownload" class="anchor"><a class="heading-anchor" href="#failedtodownload"><span></span></a>"Failed to download"</h4>
+
+<p><img alt="image" style="height:350px" src="relay-mode-dowload-failed.jpg">
+  <em>Click image to enlarge; ESC to exit.</em>
+  <br></p>
 
 <ul>
 <li><strong>Possible resolutions</strong>:
@@ -742,6 +849,10 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <h4 id="downloadfileiscorrupted" class="anchor"><a class="heading-anchor" href="#downloadfileiscorrupted"><span></span></a>"Download file is corrupted"</h4>
 
+<p><img alt="image" style="height:350px" src="relay-mode-file-corrupted.jpg">
+  <em>Click image to enlarge; ESC to exit.</em>
+  <br></p>
+
 <ul>
 <li><strong>Possible resolutions</strong>:
 
@@ -757,6 +868,10 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <h4 id="osupdatecannotbestartedduetolowbattery" class="anchor"><a class="heading-anchor" href="#osupdatecannotbestartedduetolowbattery"><span></span></a>"OS Update cannot be started due to low battery"</h4>
 
+<p><img alt="image" style="height:450px" src="relay-mode-low-battery.jpg">
+  <em>Click image to enlarge; ESC to exit.</em>
+  <br></p>
+
 <ul>
 <li><strong>Possible resolution</strong>:
 
@@ -769,6 +884,11 @@ If the host name is provided as a full URL, unsupported special characters must 
 <hr>
 
 <h4 id="jobintervalisnotinvalidrange" class="anchor"><a class="heading-anchor" href="#jobintervalisnotinvalidrange"><span></span></a>"Job interval is not in valid range"</h4>
+
+<p><img alt="image" style="height:450px" src="relay-mode-not-valid.jpg
+">
+  <em>Click image to enlarge; ESC to exit.</em>
+  <br></p>
 
 <ul>
 <li><strong>Possible resolution</strong>:
@@ -783,38 +903,111 @@ If the host name is provided as a full URL, unsupported special characters must 
 
 <h3 id="buildupdateissues" class="anchor"><a class="heading-anchor" href="#buildupdateissues"><span></span></a>Build Update Issues</h3>
 
-<p>If the device does not contain the correct build, follow these steps: </p>
+<p>If the device does not contain the correct build following an update cycle, perform the following checks. </p>
 
-<p><strong>1. Server-side checks</strong>:</p>
+<p><strong>1. Check the relay server</strong>.</p>
 
-<p>Verify the following before investigating the device:  </p>
+<p><strong>Verify the following before investigating the device</strong>:</p>
 
-<p>&nbsp;&nbsp;&nbsp; a. The server is up and running properly.<br>
+<p>&nbsp;&nbsp;&nbsp; a. The relay server is up and running properly.<br>
 &nbsp;&nbsp;&nbsp; b. The build/package is available on the server.<br> 
-&nbsp;&nbsp;&nbsp; c. The device is correctly assigned to receive the build.<br> 
+&nbsp;&nbsp;&nbsp; c. The device is correctly configured and assigned to receive the build.<br> 
 &nbsp;&nbsp;&nbsp; d. There are no connectivity or network issues between the device and the server.<br> </p>
 
-<p><strong>2. Enable RxLogger on the device</strong></p>
+<p><strong>2. Enable RxLogger on the device</strong>.</p>
 
-<p>If no issues are found on the server, enable RxLogger on the device. </p>
+<ul>
+<li><strong>If no issues are found on the server</strong>: 
 
-<p><strong>3. Wait for configured frequency</strong></p>
 
-<p>The customer can configure the update cadence to 24, 48, or any supported interval. The device will poll the server for the latest build according to the configured cadence. The device will automatically download and apply it within the next configured interval (for example, 24 or 48 hours). </p>
+<ul>
+<li><a href="/rxlogger/latest/guide/usage/">Enable RxLogger</a> on the device. </li>
 
-<p><strong>4. Collect logs if the issue persists</strong> </p>
+<li><a href="/rxlogger/latest/guide/settings/#tcpdumpmodule">Enable the RxLogger TCPdump Module</a>.</li></ul>
+</li>
+</ul>
 
-<p>If the issue still persists after 24 hours, collect the RxLogger logs from the device. </p>
+<p><strong>3. Wait for configured interval</strong>.</p>
 
-<p><strong>5. Contact support</strong> </p>
+<p>The update frequency can be configured to any supported interval, for example, 24 or 48 hours (1440 or 2880 min). At the end of each interval, the device polls the server for the latest build and automatically downloads and applies the update within the next configured interval. </p>
 
-<p>Raise a customer support ticket and share the collected logs with the Zebra Technical Support Team for further investigation. </p>
+<p><strong>4. Collect logs if the issue persists</strong>. </p>
+
+<p>If the issue persists after 24 hours, collect the RxLogger logs from the device. </p>
+
+<p><strong>5. Contact support</strong>.</p>
+
+<p><strong><a href="https://support.zebra.com/contact-support">Contact Zebra Customer Support</a> and raise a ticket</strong>. Share the collected logs with the Zebra Technical Support Team for further investigation. </p>
 
 <hr>
 
-<h2 id="alsosee" class="anchor"><a class="heading-anchor" href="#alsosee"><span></span></a>Also See</h2>
+<h2 id="frequentlyaskedquestions" class="anchor"><a class="heading-anchor" href="#frequentlyaskedquestions"><span></span></a>Frequently Asked Questions</h2>
 
-<p><a href="../faq/#relaymode">Relay Mode FAQ</a></p>
+<h3 id="isrelaymodeautomaticallyenabledonmanageddevices" class="anchor"><a class="heading-anchor" href="#isrelaymodeautomaticallyenabledonmanageddevices"><span></span></a>Is Relay Mode automatically enabled on managed devices?</h3>
+
+<p><strong>A: No, Relay Mode is disabled by default</strong>. It must be explicitly enabled using managed configurations created and deployed to devices with Zebra OEMConfig. See the <i class="fa fa-arrow-circle-up" style="color:#27AE60;"></i> <a href="#vconfiguredevices">Configure Devices section</a> above.</p>
+
+<hr>
+
+<h3 id="wherearerelaymodedeploymentfailuresanddebuglogsstored" class="anchor"><a class="heading-anchor" href="#wherearerelaymodedeploymentfailuresanddebuglogsstored"><span></span></a>Where are Relay Mode deployment failures and debug logs stored?</h3>
+
+<p><strong>A: Logs are captured and stored within each device's logcat logs</strong>. For help retrieving device logs, see the <i class="fa fa-hand-o-right" style="color:#27AE60;"></i> <a href="/rxlogger/latest/guide/usage/">Zebra RxLogger User Guide</a>.</p>
+
+<hr>
+
+<h3 id="whatisthemaximumnumberofdevicesthatcanbeupdatedconcurrently" class="anchor"><a class="heading-anchor" href="#whatisthemaximumnumberofdevicesthatcanbeupdatedconcurrently"><span></span></a>What is the maximum number of devices that can be updated concurrently?</h3>
+
+<p><strong>A: Relay Mode imposes no hard limit on concurrent device updates</strong>. The maximum number of <em>simultaneous</em> downloads depends on the bandwidth and capacity limitations of the customer-hosted server and network infrastructure.</p>
+
+<p><i class="fa fa-exclamation-triangle" style="color:#FFA500;"></i> <strong>CAUTION: Relay Mode does not support download staggering. Zebra recommends small-scale testing of the solution before ramping up to full-scale deployment</strong>.</p>
+
+<hr>
+
+<h3 id="canrelaymodebeenabledwhilealifeguardotadeploymentisactivelyinprogress" class="anchor"><a class="heading-anchor" href="#canrelaymodebeenabledwhilealifeguardotadeploymentisactivelyinprogress"><span></span></a>Can Relay Mode be enabled while a LifeGuard OTA deployment is actively in progress?</h3>
+
+<p><strong>A: The answer depends on the current state of a given LifeGuard deployment</strong>. </p>
+
+<ul>
+<li><p><strong>If an update was created by Zebra but not yet scheduled for deployment</strong>, that update is cancelled (returning error code 5151) and Relay Mode takes precedence.</p></li>
+
+<li><p><strong>If an update is scheduled or in progress</strong>, the update is allowed to complete, after which Relay Mode is enabled after the next device reboot.</p></li>
+</ul>
+
+<hr>
+
+<h3 id="ifrelaymodeisnolongerdesiredhowcanzebramanagedlifeguardotadeploymentsberesumed" class="anchor"><a class="heading-anchor" href="#ifrelaymodeisnolongerdesiredhowcanzebramanagedlifeguardotadeploymentsberesumed"><span></span></a>If Relay Mode is no longer desired, how can Zebra-managed LifeGuard OTA deployments be resumed?</h3>
+
+<p><strong>A: Relay Mode is disabled simply by changing a setting in the OEMConfig device client pushing the updated configuration to the devices and rebooting</strong>. Updates from Zebra servers resume on the next update cycle. </p>
+
+<hr>
+
+<h3 id="candevicesbeenrolledinzebradnacloudiftheyreconfiguredforrelaymode" class="anchor"><a class="heading-anchor" href="#candevicesbeenrolledinzebradnacloudiftheyreconfiguredforrelaymode"><span></span></a>Can devices be enrolled in Zebra DNA Cloud if they're configured for Relay Mode?</h3>
+
+<p>A: <strong>Yes, but the LifeGuard Update feature is disabled</strong> and attempting to update from DNA Cloud fail with error code 5151. Devices enrolled in DNA Cloud otherwise function normally.</p>
+
+<hr>
+
+<h3 id="dorelaymodeenableddevicesstillappearonthezdnacloudosupdatepage" class="anchor"><a class="heading-anchor" href="#dorelaymodeenableddevicesstillappearonthezdnacloudosupdatepage"><span></span></a>Do Relay Mode-enabled devices still appear on the ZDNA Cloud OS update page?</h3>
+
+<p><strong>A: Yes, enrolled devices configured for Relay Mode appear in the ZDNA console, but Relay Mode does not report progress back to DNA Cloud</strong>. Therefore, devices sometimes appear as "out-of-date" in status reports despite having the current update.</p>
+
+<hr>
+
+<h3 id="doesthezebralifeguardotasystemknowifadeviceisconfiguredinrelaymode" class="anchor"><a class="heading-anchor" href="#doesthezebralifeguardotasystemknowifadeviceisconfiguredinrelaymode"><span></span></a>Does the Zebra LifeGuard OTA system know if a device is configured in Relay Mode?</h3>
+
+<p><strong>A: No, the LifeGuard OTA system is not aware of the device's Relay Mode status</strong>, and the switch to Relay Mode disables a device's calls to Zebra servers for updates. Relay Mode is a localized configuration and managed entirely by your company.</p>
+
+<hr>
+
+<h3 id="howistherequiredfotaclientinstalledonthedevices" class="anchor"><a class="heading-anchor" href="#howistherequiredfotaclientinstalledonthedevices"><span></span></a>How is the required FOTA client installed on the devices?</h3>
+
+<p><strong>A: The FOTA client is installed and kept up to date in one of two ways</strong>:</p>
+
+<ul>
+<li>The FOTA client automatically updates itself if configured to do so. <i class="fa fa-hand-o-right" style="color:#27AE60;"></i> <strong><a href="../update/#automaticupdates">Learn how</a></strong>. </li>
+
+<li>The Relay Mode-ready FOTA client is scheduled to be built into Zebra's version of Android starting with the Sept., 2026, LifeGuard update.</li>
+</ul>
 
 <hr><p></p>
                                         

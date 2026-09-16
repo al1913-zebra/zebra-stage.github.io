@@ -441,6 +441,14 @@ For <strong><em>personally assigned devices,</em></strong> the "PERSONALLY_ASSIG
 </tr>
 
 <tr>
+<td>Secure Re-Enrollment</td>
+<td>enableSecureReEnrollment</td>
+<td>1<br>0</td>
+<td>true<br>false (default)</td>
+<td>Enable to require secure user identity verification via SSO or One-Time PIN before generating new credentials when an enrollment expires.</td>
+</tr>
+
+<tr>
 <td>Enrollment Key</td>
 <td>enrollmentKey</td>
 <td>[string]</td>
@@ -1338,8 +1346,8 @@ For <strong><em>personally assigned devices,</em></strong> the "PERSONALLY_ASSIG
 <td>Verification Setup</td>
 <td>on_device_manual_checkin</td>
 <td>authenticationScheme1<br>authenticationScheme2<br>authenticationScheme3<br>authenticationScheme4<br>NONE</td>
-<td>Verification Setup1<br>Verification Setup2<br>Verification Setup3 (default)<br>Verification Setup4<br>None (default)</td>
-<td>Select the verification required when a user manually signs in to the device</td>
+<td>Verification Setup1<br>Verification Setup2<br>Verification Setup3<br>Verification Setup4<br>None (default)</td>
+<td>Select the Verification Setup option applied when a user manually signs in to the device. <code>IMPORTANT:</code> Setting this parameter to NONE is not supported.</td>
 </tr>
 
 <tr>
@@ -1899,17 +1907,55 @@ For <strong><em>personally assigned devices,</em></strong> the "PERSONALLY_ASSIG
 <td>tempIdAuthMode</td>
 <td>[string]</td>
 <td>PIN (default)<br>FACE<br>ANY</td>
-<td><b>PIN -</b> Requires authentication with a PIN.<br><b>FACE -</b> Requires authentication with facial recognition.<br><b>ANY -</b> Allows users to choose between PIN or Face Authentication.
-
-</td>
+<td><b>PIN -</b> Requires authentication with a PIN.<br><b>FACE -</b> Requires authentication with facial recognition.<br><b>ANY -</b> Allows users to choose between PIN or Face Authentication.</td>
 </tr>
 
 <tr>
-<td>Select Length</td>
-<td>lengthOfPin</td>
-<td>4<br>5<br>6</td>
-<td>4 (default)<br>5<br>6</td>
-<td>Set the length of the PIN code value entered by the user.</td>
+<td>Temp Id Type</td>
+<td>tempIdType</td>
+<td>Numeric<br>AlphaNumeric</td>
+<td>Numeric<br>AlphaNumeric</td>
+<td>Choose the passcode type, either numeric only or a combination of alphanumeric characters. When AlphaNumeric is selected, other options can be required as desired: minimum for uppercase letters, lowercase letters, numbers, and special symbols.</td>
+</tr>
+
+<tr>
+<td>Minimum Length</td>
+<td>tempIdRuleMinLength</td>
+<td>4 to 20</td>
+<td>4 to 20 (default: 4)</td>
+<td>Set the minimum number of characters to accept for the Temp ID.</td>
+</tr>
+
+<tr>
+<td>Minimum Uppercase Letters</td>
+<td>tempIdRuleMinUppercase</td>
+<td>0<br>1</td>
+<td>0 (default)<br>1</td>
+<td>Select the minimum number of uppercase letters to accept for the Temp ID.</td>
+</tr>
+
+<tr>
+<td>Minimum Lowercase Letters</td>
+<td>tempIdRuleMinLowercase</td>
+<td>0<br>1</td>
+<td>0 (default)<br>1</td>
+<td>Select the minimum number of lowercase letters to accept for the Temp ID.</td>
+</tr>
+
+<tr>
+<td>Minimum Numbers</td>
+<td>tempIdRuleMinNumbers</td>
+<td>0<br>1</td>
+<td>0 (default)<br>1</td>
+<td>Select the minimum amount of numbers to accept for the Temp ID.</td>
+</tr>
+
+<tr>
+<td>Minimum Symbols</td>
+<td>tempIdRuleMinSymbols</td>
+<td>0<br>1</td>
+<td>0 (default)<br>1</td>
+<td>Select the minimum number symbols or special characters to accept for the passcode. Acceptable symbols are: <code>!,@,#,$,%,^,&amp;,,-,_,?,</code></td>
 </tr>
 
 <!--
@@ -2166,6 +2212,38 @@ Default: 3. </td>
 <td>Set the delay time in seconds (30 seconds to 2 hours) for this level.</td>
 </tr>
 
+<tr bgcolor="#D9E7ED">
+<td bgcolor="#D9E7ED">Account lockout configuration</td>
+<td>accountLockoutConfiguration</td>
+<td></td>
+<td></td>
+<td>Configures settings to automatically <a href="../usage/#accountlockoutpasscode">lock a user account</a> for a specified duration after consecutive failed <i>passcode</i> sign-in attempts.</td>
+</tr>
+
+<tr>
+<td>Enable account lockout after failed sign-in attempts</td>
+<td>enableUserAccountLockOnFailedLogin</td>
+<td>1<br>0</td>
+<td>true<br>false (default)</td>
+<td>Locks the user account after exceeding the configured threshold failed sign-in attempts.</td>
+</tr>
+
+<tr>
+<td>Maximum failed sign-in attempts</td>
+<td>maxUserFailedAttempts</td>
+<td>5<br>6<br>7<br>8<br>9<br>10</td>
+<td>5 (default)<br>6<br>7<br>8<br>9<br>10</td>
+<td>Sets the number of allowable failed sign-in attempts before locking the account.</td>
+</tr>
+
+<tr>
+<td>Auto-unlock time for locked accounts</td>
+<td>timeoutLockedUserAccount</td>
+<td>[Integer]</td>
+<td>30 (default)</td>
+<td>Set the duration in minutes before a locked account automatically unlocks.</td>
+</tr>
+
 </tbody></table>
 
 <hr>
@@ -2221,6 +2299,14 @@ Default: 3. </td>
 <td>[string]</td>
 <td>[enter string]</td>
 <td>Enter the specific app activity to launch on the lock screen (e.g. <code>com.android.your-app.appActivity</code>), or enter <code>*</code> to permit all activities from this application.</td>
+</tr>
+
+<tr>
+<td>Add to Quick Access</td>
+<td>addToQuickAccess</td>
+<td>1<br>0</td>
+<td>true<br>false</td>
+<td>When enabled, provides direct access to the specified application from the <a href="../usage/#quickaccessapps">Quick Access</a> launcher on the lock screen without user authentication.</td>
 </tr>
 
 <tr>
